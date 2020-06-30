@@ -22,7 +22,12 @@ by our method are evaluated by training survival models. The experi-
 mental results demonstrate statistically significant patient stratification
 and our approach outperformed state-of-the-art deep clustering methods.
 
-# Setup
+## Requirements
+* pytorch = 1.2.0
+* torchvision = 0.4.0
+* numpy = 1.17
+
+## Setup
 
 The pre-trained models are available on the google drive [link](https://drive.google.com/drive/folders/1Veb-3STH74GKCr-AyhKQRnEHa743P6Ff?usp=sharing). We provide as well a small dataset to try the model by yourself.
 You can run the training using the command
@@ -30,3 +35,4 @@ You can run the training using the command
 ```bash
 python run_dnr.py --db sample.hdf5 --pretrained dnr_model_state --output .
 ```
+
