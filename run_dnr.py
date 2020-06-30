@@ -2,7 +2,7 @@ import os
 import argparse
 
 from tqdm import tqdm
-from dataset import from_folder, ApplyOnKey
+from dataset import ApplyOnKey, DnRDataset
 from torch.utils.data import DataLoader
 from dnr import CAE_DNR, NonParametricClassifier, ANsDiscovery, Criterion
 
@@ -55,8 +55,7 @@ def main():
     parser.add_argument('--output', dest='output', type=str,
                         default='.', help='Output path')
     parser.add_argument('--db', dest='db', type=str,
-                        default='sample.hdf5', help='Path to database')
-                        # default='/media/abbet/DataSSD2/phd/112um_he_pairs/export_112um_he_pairs.hdf5', help='Path to database')
+                        default='samples.npy', help='Path to database')
     parser.add_argument('--device', dest='device', type=str,
                         default='cuda', choices=["cpu", "cuda"], help='Which device to use')
     parser.add_argument('--pretrained', dest='pretrained', type=str,
@@ -68,12 +67,9 @@ def main():
     max_round = 4
     max_epoch = 20
 
-    # Create dataset and sampler
-    ds_train, sampler_t = from_folder(
-        src_filename=args.db,
-        batch_size=batch_size,
-        mode='train',
-        ratio=[1.0, 0.0],
+    # Create dataset and sampler$
+    ds_train = DnRDataset(
+        filename=args.db,
         transform=transforms.Compose([
             ApplyOnKey(on_key='image_he', func=transforms.ToTensor()),
             ApplyOnKey(on_key='image', func=transforms.ToTensor()),
@@ -82,7 +78,7 @@ def main():
         ]),
     )
 
-    dl_train = DataLoader(ds_train, batch_sampler=sampler_t, num_workers=0)
+    dl_train = DataLoader(ds_train, batch_size=batch_size, num_workers=0)
 
     print('Build model with n_channels: {} ...'.format(n_channels))
     model = CAE_DNR(pretrained=True, n_channels=n_channels, hidden_dimension=512).cpu()
