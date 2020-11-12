@@ -1,5 +1,6 @@
-# Divide-and-Rule: Self-Supervised Learning for
-Survival Analysis in Colorectal Cance
+# Divide-and-Rule: Self-Supervised Learning for Survival Analysis in Colorectal Cancer
+
+Pytorch implementation of Divide-and-Rule ([DnR](https://arxiv.org/abs/2007.03292)) paper.
 
 With the long-term rapid increase in incidences of colorectal
 cancer (CRC), there is an urgent clinical need to improve risk strati-
@@ -22,6 +23,8 @@ by our method are evaluated by training survival models. The experi-
 mental results demonstrate statistically significant patient stratification
 and our approach outperformed state-of-the-art deep clustering methods.
 
+![Pipeline full](figs/sketch_pipeline_full.png)
+
 ## Requirements
 * pytorch = 1.2.0
 * torchvision = 0.4.0
@@ -29,7 +32,9 @@ and our approach outperformed state-of-the-art deep clustering methods.
 
 ## Setup
 
-The pre-trained models are available on the google drive [link](https://drive.google.com/drive/folders/1Veb-3STH74GKCr-AyhKQRnEHa743P6Ff?usp=sharing). We provide as well a small dataset to try the model by yourself.
+The pre-trained models are available on the google drive 
+[link](https://drive.google.com/drive/folders/1Veb-3STH74GKCr-AyhKQRnEHa743P6Ff?usp=sharing). 
+We provide as well a small dataset to try the model by yourself.
 You can run the training using the command
 
 ```bash
