@@ -41,3 +41,15 @@ You can run the training using the command
 python run_dnr.py --db sample.hdf5 --pretrained dnr_model_state --output .
 ```
 
+## Cite 
+If you use this work please use the following citation :).
+```text
+@inproceedings{abbet2020divide,
+  title={Divide-and-Rule: Self-Supervised Learning for Survival Analysis in Colorectal Cancer},
+  author={Abbet, Christian and Zlobec, Inti and Bozorgtabar, Behzad and Thiran, Jean-Philippe},
+  booktitle={International Conference on Medical Image Computing and Computer-Assisted Intervention},
+  pages={480--489},
+  year={2020},
+  organization={Springer}
+}
+```
