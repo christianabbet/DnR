@@ -45,17 +45,17 @@ Here is an overview of the provided data as `samples.npy`.
 ```
 samples.npy
 |
-├── [0]                  # Random location within slides (coordinates and slides ids are not provided)
+├── [0]                  # Random location within slides (coordinates and slides not provided)
 |   ├── image            # (224x224x3) RGB crop of WSI at the consdered location
 |   ├── image_he:        # (224x224x2) H&E version of the "image" crop    
 |   ├── image_pairs:     # (224x224x3) RGB crop overlapping with "image" crop
 |   ├── image_pairs_he:  # (224x224x2) H&E version of the "image_pairs_he" crop 
 |   └── idx_overall:     # (int) Used intervally when developping the alogithm - Not used
 |
-├── [1]
+├── [1]                  # Another location
 |   └── ...
 |
-└── [2]
+└── [2]                  # Another location
 |   └── ...
 ...
 
