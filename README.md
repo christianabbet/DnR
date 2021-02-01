@@ -38,7 +38,27 @@ We provide as well a small dataset to try the model by yourself.
 You can run the training using the command
 
 ```bash
-python run_dnr.py --db sample.hdf5 --pretrained dnr_model_state --output .
+python run_dnr.py --db sample.npy --pretrained dnr_model_state --output .
+```
+
+Here is an overview of the provided data as `samples.npy`.
+```
+samples.npy
+|
+├── [0]                  # Random location within slides (coordinates and slides ids are not provided)
+|   ├── image            # (224x224x3) RGB crop of WSI at the consdered location
+|   ├── image_he:        # (224x224x2) H&E version of the "image" crop    
+|   ├── image_pairs:     # (224x224x3) RGB crop overlapping with "image" crop
+|   ├── image_pairs_he:  # (224x224x2) H&E version of the "image_pairs_he" crop 
+|   └── idx_overall:     # (int) Used intervally when developping the alogithm - Not used
+|
+├── [1]
+|   └── ...
+|
+└── [2]
+|   └── ...
+...
+
 ```
 
 ## Cite 
