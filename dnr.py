@@ -26,7 +26,7 @@ import torch.nn as nn
 def resnet18(pretrained=False):
     model = models.resnet18(pretrained=pretrained)
     model.fc = Identity()
-    # model.avgpool = Identity()
+    model.avgpool = Identity()
     return model
 
 
@@ -35,7 +35,7 @@ class Identity(nn.Module):
         super(Identity, self).__init__()
 
     def forward(self, x):
-        return
+        return x
 
 
 class Backbone(nn.Module):
