@@ -27,8 +27,22 @@ state-of-the-art deep clustering methods.
 
 The pre-trained models are available on the google drive 
 [link](https://drive.google.com/drive/folders/1Veb-3STH74GKCr-AyhKQRnEHa743P6Ff?usp=sharing). 
-We provide as well a small dataset to try the model by yourself.
-You can run the training using the command
+We provide as well a small dataset to try the model by yourself. Put all the pth files in the same folder as:
+```
+DnR
+|
+├── README.md
+├── dataset.py   
+├── dnr.py                              
+├── run_dnr.py                
+├── samples.npy          # Sample (H&E images) downloaded from link    
+└── model                
+    ├── dnr_model_state_ans.pth        # model part I (from link)
+    ├── dnr_model_state_npc.pth        # model part II
+    └── dnr_model_state.pth            # model part III
+```
+
+You can run the training using the command:
 
 ```bash
 python run_dnr.py --db sample.npy --pretrained dnr_model_state --output .
