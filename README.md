@@ -48,6 +48,9 @@ You can run the training using the command:
 python run_dnr.py --db sample.npy --pretrained dnr_model_state --output .
 ```
 
+Note that here the size of the memory bank is fixed (660474). This value need to be adapted and updated with the 
+size of your data when training from scratch.
+
 Here is an overview of the provided data as `samples.npy`.
 ```
 samples.npy
