@@ -11,7 +11,7 @@ import torch.optim as optim
 import torch
 
 
-def model_func(model, optimizer, data_loader, npc, ANs_discovery, criterion, round, n_samples):
+def model_func(model, optimizer, data_loader, npc, ANs_discovery, criterion, round, n_samples, device):
 
     model.train()
 
@@ -19,14 +19,14 @@ def model_func(model, optimizer, data_loader, npc, ANs_discovery, criterion, rou
     tqdm_iterator = tqdm(data_loader, desc='train')
     for batch_idx, data in enumerate(tqdm_iterator):
 
-        data_in = data['image_he'].cuda().float()
-        data_out = data['image'].cuda().float()
-        index = data['idx_overall'].cuda().long()
+        data_in = data['image_he'].float().to(device)
+        data_out = data['image'].float().to(device)
+        index = data['idx_overall'].long().to(device)
 
         if 'image_pairs' in data:
-            data_in_p = data['image_pairs_he'].cuda().float()
-            data_out_p = data['image_pairs'].cuda().float()
-            index_p = data['idx_overall'].cuda().long() + n_samples
+            data_in_p = data['image_pairs_he'].float().to(device)
+            data_out_p = data['image_pairs'].float().to(device)
+            index_p = data['idx_overall'].long().to(device) + n_samples
 
             data_in = torch.cat((data_in, data_in_p), 0)
             data_out = torch.cat((data_out, data_out_p), 0)
@@ -66,6 +66,7 @@ def main():
     n_channels = 2
     max_round = 4
     max_epoch = 20
+    device = 'cpu'  # Change it to "cuda:0" for gpu with id 0
 
     # Create dataset and sampler$
     ds_train = DnRDataset(
@@ -81,12 +82,17 @@ def main():
     dl_train = DataLoader(ds_train, batch_size=batch_size, num_workers=0)
 
     print('Build model with n_channels: {} ...'.format(n_channels))
-    model = CAE_DNR(pretrained=True, n_channels=n_channels, hidden_dimension=512).cpu()
-    npc = NonParametricClassifier(512, 2*len(ds_train)).cpu()
-    ANs_discovery = ANsDiscovery(2*len(ds_train)).cpu()
+    model = CAE_DNR(pretrained=True, n_channels=n_channels, hidden_dimension=512)
+    # size of memorybank when model as trained (660474 samples)
+    npc = NonParametricClassifier(512, 2*660474)
+    ANs_discovery = ANsDiscovery(2*660474)
     criterion = Criterion()
     optimizer = optim.Adam(model.parameters(), lr=5e-3, betas=(0.9, 0.999))
     model_save = os.path.join(args.output, '{}_model'.format(model.__class__.__name__))
+
+    model = model.to(device)
+    npc = npc.to(device)
+    ANs_discovery = ANs_discovery.to(device)
 
     start_epoch = 0  # start from epoch 0 or last checkpoint epoch
     start_round = 0  # start for iter 0 or last checkpoint iter
@@ -115,7 +121,7 @@ def main():
             # 1. Train model (1 epoch)
             model_func(model=model, optimizer=optimizer, data_loader=dl_train,
                        npc=npc, ANs_discovery=ANs_discovery, criterion=criterion,
-                       round=round, n_samples=len(ds_train))
+                       round=round, n_samples=len(ds_train), device=device)
 
             torch.save(model, model_save+"_{}_{}.pth".format(round, epoch))
             torch.save(npc, model_save+"_npc_{}_{}.pth".format(round, epoch))
